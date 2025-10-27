@@ -11,232 +11,258 @@
   <style>
     /* ===== Reset & Base ===== */
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Playfair Display', serif; }
-    body { background-color: #1a1a1a; color: #f8f8f5; line-height: 1.6; }
+    body { background-color: #1a1a1a; color: #fff; line-height: 1.6; }
     a { text-decoration: none; color: inherit; }
-    img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    img { display: block; max-width: 100%; }
 
     /* ===== Navbar ===== */
     nav {
       display: flex; justify-content: space-between; align-items: center;
-      padding: 1rem 2rem; background-color: rgba(26,26,26,0.95); border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+      padding: 1rem 2rem; background-color: #1a1a1a; border-bottom: 1px solid rgba(255, 215, 0, 0.3);
       position: sticky; top: 0; z-index: 100;
     }
-    nav .logo { font-size: 2rem; color: #ffd700; font-weight: bold; letter-spacing: 2px; }
-    nav ul { display: flex; list-style: none; }
-    nav ul li { margin-left: 2rem; }
-    nav ul li a:hover { color: #ffd700; }
+    nav .logo { font-size: 2rem; color: gold; font-weight: bold; }
+    nav .nav-links { display: flex; list-style: none; }
+    nav .nav-links li { margin-left: 2rem; }
+    nav .nav-links li a:hover { color: gold; }
+
+    /* Hamburger Menu */
+    .menu-toggle {
+      display: none;
+      font-size: 2rem;
+      color: #ffd700;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle { display: block; }
+      .nav-links {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        background-color: rgba(26,26,26,0.95);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-in-out;
+        border-top: 1px solid rgba(255, 215, 0, 0.2);
+      }
+      .nav-links li { margin: 1.5rem 0; text-align: center; }
+      .nav-links li a { font-size: 1.2rem; }
+      .nav-links.active { max-height: 300px; }
+    }
 
     /* ===== Hero Section ===== */
     .hero {
       display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
       padding: 6rem 2rem;
-      background: linear-gradient(rgba(26,26,26,0.4), rgba(26,26,26,0.4)),
+      background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
                   url('images/image10.jpg') center/cover no-repeat;
     }
-    .hero h1 {
-      font-size: 3rem; color: #ffd700; text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
-      margin-bottom: 1rem;
-    }
-    .hero p {
-      font-size: 1.5rem; max-width: 700px; color: #f8f8f5; margin-bottom: 2rem;
-    }
+    .hero h1 { font-size: 3rem; color: gold; text-shadow: 2px 2px 8px rgba(0,0,0,0.7); margin-bottom: 1rem; }
+    .hero p { font-size: 1.5rem; max-width: 700px; color: #f5f5dc; }
     .hero a.button {
-      margin: 0.5rem; background: #ffd700; color: #1a1a1a; padding: 1rem 2rem;
+      margin-top: 2rem; background: gold; color: black; padding: 0.8rem 2rem;
       border-radius: 5px; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.3);
       transition: 0.3s;
     }
-    .hero a.button:hover { background: #ffea00cc; }
+    .hero a.button:hover { background: #ffd700cc; }
 
     /* ===== Sections ===== */
     section {
       padding: 4rem 2rem; max-width: 1200px; margin: auto;
-      background-color: rgba(255, 255, 255, 0.03); /* subtle transparent overlay */
-      border-radius: 10px;
       opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out;
     }
     section.visible { opacity: 1; transform: translateY(0); }
-    section h2 { text-align: center; font-size: 2.5rem; color: #ffd700; margin-bottom: 2rem; letter-spacing: 1px; }
+    section h2 { text-align: center; font-size: 2.5rem; color: gold; margin-bottom: 2rem; }
 
     /* Services */
     .services { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
     .service {
-      background-color: rgba(255, 215, 0, 0.08); padding: 2rem; border-radius: 10px; text-align: center; transition: 0.3s;
+      background-color: rgba(255, 215, 0, 0.1); padding: 2rem; border-radius: 10px; text-align: center; transition: 0.3s;
     }
-    .service:hover { background-color: rgba(255, 215, 0, 0.15); }
-    .service h3 { margin-bottom: 1rem; color: #ffd700; letter-spacing: 1px; }
+    .service:hover { background-color: rgba(255, 215, 0, 0.2); }
+    .service h3 { margin-bottom: 1rem; color: gold; }
 
     /* Gallery / Carousel */
-    .carousel {
-      position: relative;
-      overflow: hidden;
-      border-radius: 10px;
-      margin: 2rem auto;
-      max-width: 1000px;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.4);
-    }
-    .carousel-track {
-      display: flex;
-      transition: transform 0.6s ease-in-out;
-    }
-    .carousel-item {
-      flex: 0 0 33.333%; /* 3 images per view */
-      padding: 0.5rem;
-    }
+    .carousel { position: relative; overflow: hidden; border-radius: 10px; max-height: 400px; margin: auto; }
+    .carousel-track { display: flex; transition: transform 0.5s linear; }
+    .carousel-item { flex: 0 0 calc(33.333% - 1rem); margin-right: 1rem; display: flex; justify-content: center; align-items: center; }
     .carousel-item img {
-      width: 100%; height: 250px; border-radius: 10px; object-fit: cover;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      transition: transform 0.3s;
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
     }
     .carousel-item img:hover { transform: scale(1.05); }
 
+    /* Carousel Buttons */
+    .carousel button.prev, .carousel button.next {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(0,0,0,0.5); color: white; border: none;
+      font-size: 2rem; padding: 0.5rem 1rem; cursor: pointer; z-index: 2; border-radius: 5px;
+    }
+    .carousel button.prev { left: 10px; }
+    .carousel button.next { right: 10px; }
+    .carousel button:hover { background: rgba(0,0,0,0.7); }
+
     /* What We Do */
     .what-we-do { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
-    .what-item { background-color: rgba(255, 215, 0, 0.08); padding: 2rem; border-radius: 10px; text-align: center; transition: 0.3s; }
-    .what-item:hover { background-color: rgba(255, 215, 0, 0.15); }
-    .what-item h3 { color: #ffd700; margin-bottom: 1rem; letter-spacing: 1px; }
+    .what-item { background-color: rgba(255, 215, 0, 0.1); padding: 2rem; border-radius: 10px; text-align: center; transition: 0.3s; }
+    .what-item:hover { background-color: rgba(255, 215, 0, 0.2); }
+    .what-item h3 { color: gold; margin-bottom: 1rem; }
 
     /* Contact */
     .contact { text-align: center; margin-top: 2rem; }
     .contact p { margin-bottom: 2rem; font-size: 1.2rem; }
     .contact a.button {
-      display: inline-block; padding: 0.8rem 2rem; background: #ffd700; color: #1a1a1a;
-      border-radius: 5px; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.3); margin: 0.3rem;
-      transition: 0.3s;
+      display: inline-block; padding: 0.8rem 2rem; background: gold; color: black;
+      border-radius: 5px; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      transition: 0.3s; margin: 0.5rem;
     }
-    .contact a.button:hover { background: #ffea00cc; }
+    .contact a.button:hover { background: #ffd700cc; }
 
     /* Footer */
     footer {
-      background-color: #1a1a1a; color: #ffd700cc;
-      border-top: 1px solid rgba(255, 215, 0, 0.2);
-      text-align: center; padding: 2rem; margin-top: 4rem;
+      background-color: #1a1a1a; border-top: 1px solid rgba(255, 215, 0, 0.3);
+      text-align: center; padding: 2rem; margin-top: 4rem; color: rgba(255, 215, 0, 0.7);
     }
     .social-icons { margin-top: 1rem; display: flex; justify-content: center; gap: 2rem; }
-    .social-icons a.social { color: #ffd700; font-size: 1.8rem; transition: all 0.3s ease; text-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
-    .social-icons a.social:hover { color: #ffea00; text-shadow: 0 0 10px rgba(255, 215, 0, 0.9); transform: scale(1.2); }
+    .social-icons a.social { color: gold; font-size: 1.8rem; transition: all 0.3s ease; text-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
+    .social-icons a.social:hover { color: #ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.9); transform: scale(1.2); }
 
-    /* Responsive */
-    @media (max-width: 992px) { .carousel-item { flex: 0 0 50%; } }
-    @media (max-width: 768px) { 
+    /* Responsive adjustments */
+    @media (max-width: 992px) { .carousel-item { flex: 0 0 calc(50% - 1rem); } }
+    @media (max-width: 768px) {
       .hero h1 { font-size: 2.2rem; }
       .hero p { font-size: 1.2rem; }
-      .carousel-item { flex: 0 0 100%; }
+      .carousel-item { flex: 0 0 100%; margin-right: 0; }
+      .carousel button.prev, .carousel button.next { display: none; }
     }
   </style>
 </head>
 <body>
 
-<!-- Navbar -->
-<nav>
-  <div class="logo">Elegant Hospitality</div>
-  <ul>
-    <li><a href="#services">Services</a></li>
-    <li><a href="#gallery">Gallery</a></li>
-    <li><a href="#what">What We Do</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">Elegant Hospitality</div>
+    <div class="menu-toggle" id="mobile-menu"><i class="fas fa-bars"></i></div>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#what">What We Do</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
 
-<!-- Hero -->
-<section class="hero">
-  <h1>Professional Waitressing Services</h1>
-  <p>Barman. Waiters. Cleaners. Promotional Staff. Seasonal & Permanent.</p>
-  <a href="#contact" class="button">Book Staff Now</a>
-</section>
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Professional Waitressing Services</h1>
+    <p>Barman. Waiters. Cleaners. Promotional Staff. Seasonal & Permanent.</p>
+    <a href="#contact" class="button">Book Staff Now</a>
+  </section>
 
-<!-- Services -->
-<section id="services">
-  <h2>Our Services</h2>
-  <div class="services">
-    <div class="service"><h3>Event Staffing</h3><p>Trained waitresses, bartenders, and support staff for your events.</p></div>
-    <div class="service"><h3>Hospitality Training</h3><p>Professional hospitality training for your team to deliver top-quality service.</p></div>
-    <div class="service"><h3>Private & Corporate Events</h3><p>From private parties to corporate dinners, we have you covered.</p></div>
-  </div>
-</section>
-
-<!-- Gallery / Carousel -->
-<section id="gallery">
-  <h2>Gallery</h2>
-  <div class="carousel">
-    <div class="carousel-track">
-      <div class="carousel-item"><img src="images/image1.jpg" alt="Gallery 1"></div>
-      <div class="carousel-item"><img src="images/image2.jpg" alt="Gallery 2"></div>
-      <div class="carousel-item"><img src="images/image3.jpg" alt="Gallery 3"></div>
-      <div class="carousel-item"><img src="images/image4.jpg" alt="Gallery 4"></div>
-      <div class="carousel-item"><img src="images/image5.jpg" alt="Gallery 5"></div>
-      <div class="carousel-item"><img src="images/image6.jpg" alt="Gallery 6"></div>
-      <div class="carousel-item"><img src="images/image7.jpg" alt="Gallery 7"></div>
-      <div class="carousel-item"><img src="images/image8.jpg" alt="Gallery 8"></div>
+  <!-- Services -->
+  <section id="services">
+    <h2>Our Services</h2>
+    <div class="services">
+      <div class="service"><h3>Event Staffing</h3><p>Trained waitresses, bartenders, and support staff for your events.</p></div>
+      <div class="service"><h3>Hospitality Training</h3><p>Professional hospitality training for your team to deliver top-quality service.</p></div>
+      <div class="service"><h3>Private & Corporate Events</h3><p>From private parties to corporate dinners, we have you covered.</p></div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- What We Do -->
-<section id="what">
-  <h2>What We Do</h2>
-  <div class="what-we-do">
-    <div class="what-item"><h3>Professionalism</h3><p>Our staff are trained, punctual, and courteous at all times.</p></div>
-    <div class="what-item"><h3>Custom Solutions</h3><p>Tailored staffing solutions for every event size and type.</p></div>
-    <div class="what-item"><h3>Reliable Support</h3><p>We ensure seamless coordination to make your event successful.</p></div>
-  </div>
-</section>
+  <!-- Gallery -->
+  <section id="gallery">
+    <h2>Gallery</h2>
+    <div class="carousel">
+      <button class="prev">&#10094;</button>
+      <div class="carousel-track">
+        <div class="carousel-item"><img src="images/image1.jpg" alt="Gallery 1"></div>
+        <div class="carousel-item"><img src="images/image2.jpg" alt="Gallery 2"></div>
+        <div class="carousel-item"><img src="images/image3.jpg" alt="Gallery 3"></div>
+        <div class="carousel-item"><img src="images/image4.jpg" alt="Gallery 4"></div>
+        <div class="carousel-item"><img src="images/image5.jpg" alt="Gallery 5"></div>
+        <div class="carousel-item"><img src="images/image6.jpg" alt="Gallery 6"></div>
+        <div class="carousel-item"><img src="images/image7.jpg" alt="Gallery 7"></div>
+        <div class="carousel-item"><img src="images/image8.jpg" alt="Gallery 8"></div>
+      </div>
+      <button class="next">&#10095;</button>
+    </div>
+  </section>
 
-<!-- Contact -->
-<section id="contact" class="contact">
-  <h2>Contact Us</h2>
-  <p>Ready to elevate your event? Reach out to us on WhatsApp or Email!</p>
-  <a href="https://wa.me/1234567890" target="_blank" class="button">Chat on WhatsApp</a>
-  <a href="mailto:youremail@example.com?subject=Event%20Inquiry&body=Hello%20ElegantStaff," class="button">Send Email</a>
-</section>
+  <!-- What We Do -->
+  <section id="what">
+    <h2>What We Do</h2>
+    <div class="what-we-do">
+      <div class="what-item"><h3>Professionalism</h3><p>Our staff are trained, punctual, and courteous at all times.</p></div>
+      <div class="what-item"><h3>Custom Solutions</h3><p>Tailored staffing solutions for every event size and type.</p></div>
+      <div class="what-item"><h3>Reliable Support</h3><p>We ensure seamless coordination to make your event successful.</p></div>
+    </div>
+  </section>
 
-<!-- Footer -->
-<footer>
-  &copy; 2025 Elegant Hospitality. All Rights Reserved.
-  <div class="social-icons">
-    <a href="https://www.facebook.com/yourpage" target="_blank" class="social"><i class="fab fa-facebook-f"></i></a>
-    <a href="https://www.instagram.com/yourprofile" target="_blank" class="social"><i class="fab fa-instagram"></i></a>
-  </div>
-</footer>
+  <!-- Contact -->
+  <section id="contact" class="contact">
+    <h2>Contact Us</h2>
+    <p>Ready to elevate your event? Reach out to us on WhatsApp or Email!</p>
+    <a href="https://wa.me/1234567890" target="_blank" class="button">Chat on WhatsApp</a>
+    <a href="mailto:youremail@example.com?subject=Event%20Inquiry&body=Hello%20ElegantStaff," class="button">Send Email</a>
+  </section>
 
-<!-- Carousel & Fade-in JS -->
-<script>
-const track = document.querySelector('.carousel-track');
-const slides = Array.from(track.children);
-let currentIndex = 0;
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Elegant Hospitality. All Rights Reserved.
+    <div class="social-icons">
+      <a href="https://www.facebook.com/yourpage" target="_blank" class="social"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://www.instagram.com/yourprofile" target="_blank" class="social"><i class="fab fa-instagram"></i></a>
+    </div>
+  </footer>
 
-// Duplicate slides for infinite scroll
-slides.forEach(slide => track.appendChild(slide.cloneNode(true)));
+  <!-- JS -->
+  <script>
+    // Hamburger menu toggle
+    const mobileMenu = document.getElementById('mobile-menu');
+    const navLinks = document.querySelector('.nav-links');
+    mobileMenu.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      mobileMenu.querySelector('i').classList.toggle('fa-bars');
+      mobileMenu.querySelector('i').classList.toggle('fa-times');
+    });
 
-function updateCarousel() {
-  const slideWidth = slides[0].getBoundingClientRect().width + 16;
-  track.style.transform = `translateX(-${slideWidth * currentIndex}px)`;
-  currentIndex = (currentIndex + 1) % slides.length;
-}
+    // Carousel
+    const track = document.querySelector('.carousel-track');
+    const slides = Array.from(track.children);
+    let currentIndex = 0;
 
-// Autoplay
-setInterval(updateCarousel, 3000);
+    function updateCarousel() {
+      const slideWidth = slides[0].getBoundingClientRect().width + 16;
+      track.style.transform = `translateX(-${slideWidth * currentIndex}px)`;
+      currentIndex = (currentIndex + 1) % slides.length;
+    }
+    setInterval(updateCarousel, 3000);
 
-// Swipe for mobile
-let startX = 0;
-track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
-track.addEventListener('touchend', e => {
-  const endX = e.changedTouches[0].clientX;
-  if (startX - endX > 50) currentIndex++;
-  else if (endX - startX > 50) currentIndex--;
-  updateCarousel();
-});
+    // Swipe support
+    let startX = 0;
+    track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
+    track.addEventListener('touchend', e => {
+      const endX = e.changedTouches[0].clientX;
+      if (startX - endX > 50) currentIndex++;
+      else if (endX - startX > 50) currentIndex--;
+      updateCarousel();
+    });
 
-// Fade-in sections
-const sections = document.querySelectorAll('section');
-function revealSections() {
-  const triggerBottom = window.innerHeight * 0.85;
-  sections.forEach(section => {
-    const sectionTop = section.getBoundingClientRect().top;
-    if (sectionTop < triggerBottom) section.classList.add('visible');
-  });
-}
-window.addEventListener('scroll', revealSections);
-window.addEventListener('load', revealSections);
-</script>
+    // Fade-in sections
+    const sections = document.querySelectorAll('section');
+    function revealSections() {
+      const triggerBottom = window.innerHeight * 0.85;
+      sections.forEach(section => {
+        if(section.getBoundingClientRect().top < triggerBottom) section.classList.add('visible');
+      });
+    }
+    window.addEventListener('scroll', revealSections);
+    window.addEventListener('load', revealSections);
+  </script>
 </body>
 </html>
