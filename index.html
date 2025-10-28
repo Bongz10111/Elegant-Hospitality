@@ -101,40 +101,61 @@
   /* What We Do grid */
   .what-we-do{display:grid;grid-template-columns:repeat(auto-fit, minmax(260px,1fr));gap:2rem;}
 
-  .gallery-grid {
+  /* Gallery grid */
+.gallery-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-auto-rows: 200px;
-  gap: 1rem; /* small gap for spacing */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.5rem;
   max-width: 1200px;
   margin: auto;
 }
 
+/* Each gallery item */
 .gallery-item {
   position: relative;
   overflow: hidden;
   border-radius: 12px;
 }
 
+/* Image styling */
 .gallery-item img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* image fills grid block fully */
+  object-fit: cover; /* fills the block */
   display: block;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
+/* Hover/zoom effect */
 .gallery-item:hover img {
-  transform: scale(1.05); 
-  box-shadow: 0 0 20px 5px rgba(205,165,32,0.4); /* golden luxury glow */
+  transform: scale(1.15); /* enlarge image on hover */
+  box-shadow: 0 0 40px 10px rgba(205,165,32,0.5); /* golden glow */
+  z-index: 10;
+  position: relative;
 }
 
-/* Responsive adjustments */
-@media(max-width:1200px){.gallery-grid{grid-template-columns:repeat(4,1fr);}}
-@media(max-width:992px){.gallery-grid{grid-template-columns:repeat(3,1fr);grid-auto-rows:180px;}}
-@media(max-width:768px){.gallery-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:150px;}}
-@media(max-width:480px){.gallery-grid{grid-template-columns:1fr;grid-auto-rows:200px;}}
-
+/* Responsive adjustments to reduce cropping on mobile */
+@media(max-width:1200px){
+  .gallery-grid{grid-template-columns:repeat(4,1fr);}
+}
+@media(max-width:992px){
+  .gallery-grid{
+    grid-template-columns:repeat(3,1fr);
+    grid-auto-rows: 220px; /* taller rows */
+  }
+}
+@media(max-width:768px){
+  .gallery-grid{
+    grid-template-columns:repeat(2,1fr);
+    grid-auto-rows: 280px; /* taller rows for mobile */
+  }
+}
+@media(max-width:480px){
+  .gallery-grid{
+    grid-template-columns:1fr;
+    grid-auto-rows: 350px; /* tall enough to avoid cutting image */
+  }
+}
 
 
   /* Contact */
